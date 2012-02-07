@@ -1,1 +1,6 @@
 Compiled using Visual C++ Express 2010 with OpenGL and GLUT
+
+Main Program: TerrainGenerator.cpp
+
+Stand Alone Classes:
+	HeightMapMesh (HeightMapMesh.h, HeightMapMeshpriv.h, HeightMapMeshimpl.cpp)

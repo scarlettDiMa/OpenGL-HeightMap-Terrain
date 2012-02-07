@@ -1,8 +1,6 @@
 /*
- * Student: Geneva Smith (0964909)
- * Course: Software Engineering 3GC3
- * Professor: Dr. R. Teather
- * Assignment 2: Terrrain Generator
+ * Geneva Smith
+ * Terrrain Generator
  * File: Height Mesh Class Implementation
  * --------------------------------------
  * This  program implements all functions that can be found in the Height Map Mesh class header

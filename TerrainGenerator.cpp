@@ -1,8 +1,6 @@
 /*
- * Student: Geneva Smith (0964909)
- * Course: Software Engineering 3GC3
- * Professor: Dr. R. Teather
- * Assignment 2: Terrrain Generator
+ * Geneva Smith
+ * Terrrain Generator
  * File: Terrain Generator
  * --------------------------------------
  * This  program generates a terrain using the HeightMapMesh class. It adds extra features, such as lighting,
