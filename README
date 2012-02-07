@@ -4,3 +4,10 @@ Main Program: TerrainGenerator.cpp
 
 Stand Alone Classes:
 	HeightMapMesh (HeightMapMesh.h, HeightMapMeshpriv.h, HeightMapMeshimpl.cpp)
+
+You must install the OpenGL and GLUT libraries before you can use this code:
+
+	http://www.opengl.org/
+
+After this, you need to change the #include<GLUT/GLUT> and #include<OpenGL/OpenGL> so that they point to where you have
+saved those libraries.
