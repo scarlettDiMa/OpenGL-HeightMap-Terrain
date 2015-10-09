@@ -20,7 +20,7 @@
 #include <GLUT/GLUT.h>
 
 //Programmer defined libraries and classes
-#include "Height Map Mesh.h"
+#include "HeightMapMesh.h"
 
 using namespace std;	//Allows the use of vectors and I/O
 
