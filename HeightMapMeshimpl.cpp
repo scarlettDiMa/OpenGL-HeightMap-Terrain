@@ -65,23 +65,39 @@ HeightMesh::HeightMesh(int x, int z)
 	faceIndex = (mapWidth - 1) * 2;
 
 	faceNormals = new vector <double> *[mapLength - 1];
-	for (int i = 0; i < mapLength; i++) faceNormals[i] = new vector <double> [faceIndex];
+	for (int i = 0; i < mapLength - 1; i++)
+        faceNormals[i] = new vector <double> [faceIndex];
 
 	//Dynamic array creation for Point normals
 	vertexNormals = new vector <double> *[mapLength];
-	for (int i = 0; i < mapLength; i++) vertexNormals[i] = new vector <double> [mapWidth];
+	for (int i = 0; i < mapLength; i++)
+        vertexNormals[i] = new vector <double> [mapWidth];
 }
 
 /*	Class Destructor	*/
 HeightMesh::~HeightMesh()
 {
-	/*
 	if (heights != NULL)
 	{
-		for (int i = 0; i < mapWidth; i++) delete [] heights[i];
+		for (int i = 0; i < mapWidth; i++)
+            delete [] heights[i];
 		delete [] heights;
+        height = nullptr;
 	}
-	*/
+    if (vertexNormals != NULL)
+    {
+        for (int i = 0; i < mapLength; i++)
+            delete [] vertexNormals[i];
+        delete [] vertexNormals;
+        vertexNormals = nullptr;
+    }
+    if (faceNormals != NULL)
+    {
+        for (int i = 0; i < mapLength - 1; i++)
+            delete[] faceNormals[i];
+        delete[] faceNormals;
+        faceNormals = nullptr;
+    }	
 }
 
 
