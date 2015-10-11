@@ -65,23 +65,39 @@ HeightMesh::HeightMesh(int x, int z)
 	faceIndex = (mapWidth - 1) * 2;
 
 	faceNormals = new vector <double> *[mapLength - 1];
-	for (int i = 0; i < mapLength; i++) faceNormals[i] = new vector <double> [faceIndex];
+	for (int i = 0; i < mapLength - 1; i++)
+        faceNormals[i] = new vector <double> [faceIndex];
 
 	//Dynamic array creation for Point normals
 	vertexNormals = new vector <double> *[mapLength];
-	for (int i = 0; i < mapLength; i++) vertexNormals[i] = new vector <double> [mapWidth];
+	for (int i = 0; i < mapLength; i++)
+        vertexNormals[i] = new vector <double> [mapWidth];
 }
 
 /*	Class Destructor	*/
 HeightMesh::~HeightMesh()
 {
-	/*
 	if (heights != NULL)
 	{
-		for (int i = 0; i < mapWidth; i++) delete [] heights[i];
+		for (int i = 0; i < mapWidth; i++)
+            delete [] heights[i];
 		delete [] heights;
+        height = nullptr;
 	}
-	*/
+    if (vertexNormals != NULL)
+    {
+        for (int i = 0; i < mapLength; i++)
+            delete [] vertexNormals[i];
+        delete [] vertexNormals;
+        vertexNormals = nullptr;
+    }
+    if (faceNormals != NULL)
+    {
+        for (int i = 0; i < mapLength - 1; i++)
+            delete[] faceNormals[i];
+        delete[] faceNormals;
+        faceNormals = nullptr;
+    }	
 }
 
 
@@ -256,54 +272,45 @@ vector <double> ComputeUnitNormal(vector <double> p1, vector <double> p2, vector
 
 void HeightMesh::CircleTerrain()
 {
-	double dz, dx;
-	double distance;
-	double test;
-	int x, z;
-	double radius;
-	double cosVal;
-
 	//Determine number of hills in terrain
-	int area = mapWidth * mapLength;
-	int tempA = area;
-	int num = 0;
-	
-	while (tempA > 1000) 
-	{
-		num += 1;
-		tempA -= 1000;
-	}
+	const int area = mapWidth * mapLength;
+	const int num = floor(area / 1000.0);
 
-	int numCircles = rand() % area + num * (mapWidth);
+	const int numCircles = rand() % area + num * (mapWidth);
 
 	//Adjust height values
 	for (int a = 0; a < numCircles; a++)
 	{
 		//Circle parameters
-		x = rand() % mapWidth;
-		z = rand() % mapLength;
-		radius = rand() % MAX_RADIUS + 1;
+		const int x = rand() % mapWidth;
+		const int z = rand() % mapLength;
+		const double radius = rand() % MAX_RADIUS + 1;
 
 		//Progress bar (text version)
 		cout << "Drawing progress: " << a << "/" << numCircles - 1 << endl;
 
+        const int startx = (x - radius < 0) ? 0 : (x - radius);
+        const int startz = (z - radius < 0) ? 0 : (z - radius);
+        const int endx = (x + radius > mapWidth) ? mapWidth : (x + radius);
+        const int endz = (z + radius > mapLength) ? mapLength : (z + radius);
+        
 		//Each terrain point
-		for (int i = 0; i < mapLength; i++)
+		for (int i = startz; i < endz; i++)
 		{
-			for (int j = 0; j < mapWidth; j++)
+            const int dz = z - i;
+			for (int j = startx; j < endx; j++)
 			{
 				//Calculate y of points
-				dz = z - i;
-				dx = x - j;
+				const int dx = x - j;
 
 				//Calculate distance between point and circle centre
-				distance = sqrt((dz*dz) + (dx*dx));
+				const double distance = sqrt(double((dz*dz) + (dx*dx)));
 
-				test = distance * 2  / radius;
+				const double test = distance * 2 / radius;
 
 				if (fabs(test) <= 1.0)
 				{
-					cosVal = test * 3.14 / 180;
+					const double cosVal = test * 3.14 / 180;
 					heights[i][j] += (DISPLACEMENT / 2.0)  + (cos(cosVal) * DISPLACEMENT / 2.0);
 
 					if (heights[i][j] > maxHeight) maxHeight = heights[i][j];
